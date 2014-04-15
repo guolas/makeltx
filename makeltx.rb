@@ -40,7 +40,7 @@ def clean_environment
   command = "find . -type f"
   command = command << "|grep -v \"stuff\""
   command = command << "|egrep -v \"\.(rb|sh|tex|txt|bib|pdf|eps|png)$\""
-  command = command << "|egrep -v \".git\""
+  command = command << "|egrep -v \"\.git\""
   command = command << "|xargs rm -rf"
   Open3.popen2e(command) do |stdin, stdouterr, wait_thread|
     unless wait_thread.value.success?

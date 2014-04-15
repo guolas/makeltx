@@ -1,0 +1,4 @@
+#!/bin/bash
+MAKELTX_DIRECTORY=/Users/jjgarcia/projects/makeltx
+
+exec ruby -W0 ${MAKELTX_DIRECTORY}/makeltx.rb "$@"

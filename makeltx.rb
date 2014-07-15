@@ -62,10 +62,10 @@ def bibtex_pass(input_file)
         puts line
       end
     end
-    unless wait_thread.value.success?
-      puts "\nError generating the bibliography"
-      exit(2)
-    end
+#     unless wait_thread.value.success?
+#       puts "\nError generating the bibliography"
+#       exit(2)
+#     end
   end
   print " [DONE]\n"
 end

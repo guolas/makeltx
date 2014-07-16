@@ -5,7 +5,7 @@ def clean_environment
   print "Cleaning the environment..."
   command = "find . -type f"
   command = command << "|grep -v \"stuff\""
-  command = command << "|egrep -v \"\.(rb|sh|tex|txt|bib|pdf|eps|png)$\""
+  command = command << "|egrep -v \"\.(rb|sh|tex|txt|bib|pdf|eps|png|jpg)$\""
   command = command << "|egrep -v \"\.git\""
   command = command << "|xargs rm -rf"
   Open3.popen2e(command) do |stdin, stdouterr, wait_thread|

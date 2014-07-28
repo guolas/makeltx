@@ -99,16 +99,34 @@ if ARGV.size == 0
 end
 
 if /-c/i =~ ARGV[0]
-  clean_environment
+  puts "Are you sure you want to clean the environment from path:"
+  puts "    [" << Dir.pwd << "]"
+  print "[y/n]: "
+  # Read a character, it seems like this way of reading a char without waiting
+  # for a newline is system dependent, and this way is valid for Unix-like OS
+  begin
+    system("stty raw -echo")
+    answer = STDIN.getc
+  ensure
+    system("stty -raw echo")
+    puts
+  end
+  if /^y$/i.match(answer)
+    puts "Cleaning is actually disabled until I fix the way it acts, I don't"
+    puts "want to break anything"
+#      clean_environment
+  end
 else
-  clean_environment
-
   input_file = ARGV[0]
   puts "Processing <" << input_file << ">"
   unless check_environment(input_file)
     puts "[ERROR] File " << input_file << ".tex does not exist"
     exit(-2)
   end
+
+  puts "Cleaning is actually disabled until I fix the way it acts, I don't"
+  puts "want to break anything"
+#   clean_environment
 
   # Option to only clean the environment
   latex_pass(input_file, 1)

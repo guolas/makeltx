@@ -19,9 +19,9 @@ end
 
 # -----------------------------------------------------------------------------
 def latex_pass(input_file, pass, last = false)
-  print "PDFLaTeX pass [" << pass.to_s << "]..."
+  print "XeTeX pass [" << pass.to_s << "]..."
   options = "-interaction=nonstopmode"
-  Open3.popen2("pdflatex", options, input_file) do |stdin, stdout, wait_thread|
+  Open3.popen2("xelatex", options, input_file) do |stdin, stdout, wait_thread|
     error = false
     stdout.each do |line|
       if error
@@ -44,7 +44,7 @@ def latex_pass(input_file, pass, last = false)
       end 
     end
     unless wait_thread.value.success?
-      puts "\n[ERROR] Error in pass [" << pass.to_s << "] of PDFLaTeX"
+      puts "\n[ERROR] Error in pass [" << pass.to_s << "] of XeTeX"
       puts "        Check <" << input_file << ".log> for more details"
       exit(1)
     end
@@ -124,7 +124,7 @@ else
     exit(-2)
   end
 
-  puts "Cleaning is actually disabled until I fix the way it acts, I don't"
+  puts "Cleaning is actually disabled until I fix the way it works, I don't"
   puts "want to break anything"
 #   clean_environment
 

@@ -4,9 +4,7 @@ require 'open3'
 def clean_environment
   print "Cleaning the environment..."
   command = "find . -type f"
-  command = command << "|grep -v \"stuff\""
-  command = command << "|egrep -v \"\.(rb|sh|tex|txt|bib|pdf|eps|png|jpg)$\""
-  command = command << "|egrep -v \"\.git\""
+  command = command << "|egrep \"\.(nlo|out|log|ist|blg|bbl|acr|acn|alg|glo|gls|glg|aux)$\""
   command = command << "|xargs rm -rf"
   Open3.popen2e(command) do |stdin, stdouterr, wait_thread|
     unless wait_thread.value.success?
@@ -112,9 +110,9 @@ if /-c/i =~ ARGV[0]
     puts
   end
   if /^y$/i.match(answer)
-    puts "Cleaning is actually disabled until I fix the way it acts, I don't"
-    puts "want to break anything"
-#      clean_environment
+    clean_environment
+  else
+    puts "Cleaning canceled."
   end
 else
   input_file = ARGV[0]
@@ -124,9 +122,8 @@ else
     exit(-2)
   end
 
-  puts "Cleaning is actually disabled until I fix the way it works, I don't"
-  puts "want to break anything"
-#   clean_environment
+  puts "If you want to clean the environment first, run `makeltx -C` before"
+  puts "compiling the project."
 
   # Option to only clean the environment
   latex_pass(input_file, 1)

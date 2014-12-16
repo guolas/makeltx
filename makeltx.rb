@@ -4,7 +4,8 @@ require 'open3'
 def clean_environment
   print "Cleaning the environment..."
   command = "find . -type f"
-  command = command << "|egrep \"\.(nlo|out|log|ist|blg|bbl|acr|acn|alg|glo|gls|glg|aux)$\""
+  command = command << "|egrep \"\.(nlo|out|log|ist|blg|bbl|acr|"
+  command = command << "acn|alg|glo|gls|glg|aux|lot|lof|toc|bcf)$\""
   command = command << "|xargs rm -rf"
   Open3.popen2e(command) do |stdin, stdouterr, wait_thread|
     unless wait_thread.value.success?
@@ -61,18 +62,14 @@ def tex_engine_pass(input_file, pass, engine, last = false)
 end
 
 # -----------------------------------------------------------------------------
-def bibtex_pass(input_file)
-  print "Generating the BibTeX content..."
-  Open3.popen2e("bibtex", input_file) do |stdin, stdouterr, wait_thread|
+def biber_pass(input_file)
+  print "Running Biber..."
+  Open3.popen2e("biber", input_file) do |stdin, stdouterr, wait_thread|
     stdouterr.each do |line|
       if /error/i =~ line
         puts line
       end
     end
-#     unless wait_thread.value.success?
-#       puts "\nError generating the bibliography"
-#       exit(2)
-#     end
   end
   print " [DONE]\n"
 end
@@ -160,7 +157,7 @@ if ARGV.size > 0
 
   # Option to only clean the environment
   tex_engine_pass(input_file, 1, engine)
-  bibtex_pass(input_file)
+  biber_pass(input_file)
   glossaries_pass(input_file)
   tex_engine_pass(input_file, 2, engine)
   tex_engine_pass(input_file, 3, engine, true)

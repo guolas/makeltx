@@ -5,7 +5,7 @@ def clean_environment
   print "Cleaning the environment..."
   command = "find . -type f"
   command = command << "|egrep \"\.(nlo|out|log|ist|blg|bbl|acr|"
-  command = command << "acn|alg|glo|gls|glg|aux|lot|lof|toc|bcf)$\""
+  command = command << "acn|alg|glo|gls|glg|aux|lot|lof|toc|bcf|run\.xml)$\""
   command = command << "|xargs rm -rf"
   Open3.popen2e(command) do |stdin, stdouterr, wait_thread|
     unless wait_thread.value.success?
